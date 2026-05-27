@@ -1,1 +1,204 @@
-hello everyone here!!!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f0e8;
+      --ink: #1a1611;
+      --accent: #c8440a;
+      --muted: #8a7f72;
+      --card: #ece7dd;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid #d4cec4;
+    }
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 5rem 2.5rem 4rem;
+      align-items: center;
+    }
+    .hero-text { padding-right: 4rem; }
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-body {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1rem;
+      max-width: 38ch;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      position: relative;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-stack { position: relative; width: 280px; height: 340px; }
+    .card {
+      position: absolute;
+      inset: 0;
+      background: var(--card);
+      border-radius: 6px;
+      border: 1px solid #d4cec4;
+    }
+    .card:nth-child(1) { transform: rotate(-6deg) translateY(12px); background: #ddd8ce; }
+    .card:nth-child(2) { transform: rotate(-2deg) translateY(6px); }
+    .card:nth-child(3) {
+      transform: rotate(2deg);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      gap: 0.8rem;
+    }
+    .card-line {
+      height: 10px;
+      background: #d4cec4;
+      border-radius: 4px;
+    }
+    .card-line.short { width: 55%; }
+    .card-line.accent { background: var(--accent); width: 35%; }
+    .card-dot {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid #d4cec4;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow { animation: fadeUp 0.5s ease both; }
+    h1        { animation: fadeUp 0.55s 0.1s ease both; }
+    .hero-body{ animation: fadeUp 0.55s 0.2s ease both; }
+    .btn      { animation: fadeUp 0.55s 0.3s ease both; }
+    .hero-visual { animation: fadeUp 0.7s 0.2s ease both; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">Folio</span>
+    <ul class="nav-links">
+      <li><a href="#">Work</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Welcome</p>
+      <h1>Ideas worth<br><em>building</em> on.</h1>
+      <p class="hero-body">
+        A clean starting point for your next web project — structured, readable,
+        and ready for whatever comes next.
+      </p>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+
+    <div class="hero-visual">
+      <div class="card-stack">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card">
+          <div class="card-dot"></div>
+          <div class="card-line accent"></div>
+          <div class="card-line"></div>
+          <div class="card-line short"></div>
+          <div class="card-line"></div>
+          <div class="card-line short"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Folio. All rights reserved.</footer>
+
+</body>
+</html>
