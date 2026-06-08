@@ -1,204 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riff & Grain — Guitar Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f5f0e8;
-      --ink: #1a1611;
-      --accent: #c8440a;
-      --muted: #8a7f72;
-      --card: #ece7dd;
+      --bg:       #0f0d0b;
+      --bg2:      #161310;
+      --surface:  #1e1a15;
+      --border:   #2e2820;
+      --gold:     #c9883a;
+      --gold-lt:  #e8a84e;
+      --cream:    #f0e8d8;
+      --muted:    #7a6e60;
+      --red:      #9b2c2c;
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
+      color: var(--cream);
+      font-family: 'Barlow', sans-serif;
       font-weight: 300;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
     }
 
     /* ── NAV ── */
     nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 1.4rem 2.5rem;
-      border-bottom: 1px solid #d4cec4;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: linear-gradient(to bottom, rgba(15,13,11,0.95), transparent);
+      backdrop-filter: blur(2px);
     }
-    .logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.35rem;
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.5rem;
       letter-spacing: -0.02em;
+      color: var(--gold);
+      text-decoration: none;
     }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-logo span { color: var(--cream); font-weight: 700; font-style: italic; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
     .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
       text-decoration: none;
       color: var(--muted);
-      font-size: 0.875rem;
-      font-weight: 400;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-lt); }
 
     /* ── HERO ── */
     .hero {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 5rem 2.5rem 4rem;
-      align-items: center;
-    }
-    .hero-text { padding-right: 4rem; }
-    .eyebrow {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-    }
-    h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.6rem, 5vw, 4.2rem);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-    }
-    h1 em { font-style: italic; color: var(--accent); }
-    .hero-body {
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 1rem;
-      max-width: 38ch;
-      margin-bottom: 2.5rem;
-    }
-    .btn {
-      display: inline-block;
-      background: var(--ink);
-      color: var(--bg);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      padding: 0.85rem 2rem;
-      border-radius: 2px;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn:hover { background: var(--accent); transform: translateY(-2px); }
-
-    /* ── HERO VISUAL ── */
-    .hero-visual {
-      position: relative;
-      height: 420px;
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 3rem;
     }
-    .card-stack { position: relative; width: 280px; height: 340px; }
-    .card {
+    .hero-bg {
       position: absolute;
       inset: 0;
-      background: var(--card);
-      border-radius: 6px;
-      border: 1px solid #d4cec4;
+      background:
+        radial-gradient(ellipse 70% 80% at 75% 50%, rgba(201,136,58,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(155,44,44,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, #0f0d0b 0%, #1a1410 100%);
     }
-    .card:nth-child(1) { transform: rotate(-6deg) translateY(12px); background: #ddd8ce; }
-    .card:nth-child(2) { transform: rotate(-2deg) translateY(6px); }
-    .card:nth-child(3) {
-      transform: rotate(2deg);
-      background: var(--bg);
+
+    /* SVG guitar silhouette */
+    .guitar-silhouette {
+      position: absolute;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52%;
+      opacity: 0.12;
+      filter: blur(0.5px);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+    }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.6rem;
       display: flex;
-      flex-direction: column;
-      padding: 2rem;
+      align-items: center;
       gap: 0.8rem;
     }
-    .card-line {
-      height: 10px;
-      background: #d4cec4;
-      border-radius: 4px;
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
     }
-    .card-line.short { width: 55%; }
-    .card-line.accent { background: var(--accent); width: 35%; }
-    .card-dot {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--ink);
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.8rem;
+    }
+    h1 .line2 {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+    }
+    .hero-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 44ch;
+      margin-bottom: 2.8rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 1rem 2.4rem;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--cream);
+      border: 1px solid var(--border);
+      padding: 1rem 2rem;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 3rem;
+      left: 3rem;
+      right: 3rem;
+      display: flex;
+      gap: 3rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      z-index: 2;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--gold);
+      overflow: hidden;
+      padding: 0.9rem 0;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-track span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg);
+      padding: 0 2.5rem;
+    }
+    .marquee-track span.dot { padding: 0; opacity: 0.4; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 7rem 3rem; }
+    .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    h2 em { font-style: italic; color: var(--gold); }
+
+    /* ── FEATURED GUITARS ── */
+    .guitars { background: var(--bg2); }
+    .guitars-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .guitars-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 36ch;
+    }
+    .guitars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+    }
+    .guitar-card {
+      background: var(--surface);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .guitar-card:hover { background: #252018; }
+    .guitar-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .guitar-card:hover::after { width: 100%; }
+    .guitar-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      filter: drop-shadow(0 0 20px rgba(201,136,58,0.3));
+    }
+    .guitar-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
       margin-bottom: 0.4rem;
     }
+    .guitar-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .guitar-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.8rem;
+    }
+    .guitar-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+    }
+    .guitar-tag {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 1px;
+    }
+    .tag-new { background: var(--gold); color: var(--bg); }
+    .tag-used { background: var(--red); color: var(--cream); }
+    .tag-rare { background: #2a2060; color: #a090f0; }
+
+    /* ── SERVICES ── */
+    .services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+    .svc-card {
+      background: var(--surface);
+      padding: 2.5rem 1.8rem;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .svc-card:hover { border-color: var(--gold); background: #1a1710; }
+    .svc-icon { font-size: 2.2rem; margin-bottom: 1.5rem; display: block; }
+    .svc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .svc-body { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── QUOTE SECTION ── */
+    .quote-section {
+      background: var(--surface);
+      padding: 6rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .quote-section::before {
+      content: '"';
+      position: absolute;
+      top: -0.2em; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 22rem;
+      font-weight: 900;
+      color: rgba(201,136,58,0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+    blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 780px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+    cite {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      background: var(--bg2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+    .nl-body {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-top: 1rem;
+    }
+    .nl-form { display: flex; gap: 0; }
+    .nl-form input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--cream);
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.9rem;
+      padding: 1rem 1.4rem;
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.2s;
+    }
+    .nl-form input::placeholder { color: var(--muted); }
+    .nl-form input:focus { border-color: var(--gold); }
+    .nl-form button {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nl-form button:hover { background: var(--gold-lt); }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.8rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .footer-logo span { color: var(--cream); font-style: italic; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--muted);
-      border-top: 1px solid #d4cec4;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .eyebrow { animation: fadeUp 0.5s ease both; }
-    h1        { animation: fadeUp 0.55s 0.1s ease both; }
-    .hero-body{ animation: fadeUp 0.55s 0.2s ease both; }
-    .btn      { animation: fadeUp 0.55s 0.3s ease both; }
-    .hero-visual { animation: fadeUp 0.7s 0.2s ease both; }
+    .hero-tag    { animation: fadeUp 0.5s 0.1s ease both; }
+    h1           { animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-body   { animation: fadeUp 0.6s 0.35s ease both; }
+    .hero-actions{ animation: fadeUp 0.6s 0.5s ease both; }
+    .hero-stats  { animation: fadeUp 0.6s 0.65s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 14rem; }
+      .hero-stats { left: 1.5rem; right: 1.5rem; gap: 1.5rem; flex-wrap: wrap; }
+      section { padding: 5rem 1.5rem; }
+      .guitars-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .newsletter { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
 
-  <nav>
-    <span class="logo">Folio</span>
-    <ul class="nav-links">
-      <li><a href="#">Work</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Riff<span>&amp;Grain</span></a>
+  <ul class="nav-links">
+    <li><a href="#guitars">Guitars</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#">Lessons</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Visit the Shop</a>
+</nav>
 
-  <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Welcome</p>
-      <h1>Ideas worth<br><em>building</em> on.</h1>
-      <p class="hero-body">
-        A clean starting point for your next web project — structured, readable,
-        and ready for whatever comes next.
-      </p>
-      <a href="#" class="btn">Get Started</a>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- SVG Guitar Silhouette -->
+  <svg class="guitar-silhouette" viewBox="0 0 300 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M148 10 C148 10 155 50 155 90 L155 200 C185 210 210 240 210 280 C210 340 175 390 148 400 C121 390 86 340 86 280 C86 240 111 210 141 200 L141 90 C141 50 148 10 148 10Z" fill="#c9883a"/>
+    <rect x="143" y="90" width="10" height="8" rx="1" fill="#8a5a20"/>
+    <rect x="143" y="110" width="10" height="8" rx="1" fill="#8a5a20"/>
+    <rect x="143" y="130" width="10" height="8" rx="1" fill="#8a5a20"/>
+    <rect x="143" y="150" width="10" height="8" rx="1" fill="#8a5a20"/>
+    <rect x="143" y="170" width="10" height="8" rx="1" fill="#8a5a20"/>
+    <circle cx="148" cy="300" r="45" fill="none" stroke="#8a5a20" stroke-width="3"/>
+    <line x1="148" y1="10" x2="148" y2="90" stroke="#e8a84e" stroke-width="1.5"/>
+    <line x1="146" y1="10" x2="146" y2="90" stroke="#c9883a" stroke-width="0.5"/>
+    <line x1="150" y1="10" x2="150" y2="90" stroke="#c9883a" stroke-width="0.5"/>
+    <path d="M130 25 L148 10 L166 25" fill="none" stroke="#c9883a" stroke-width="2"/>
+    <circle cx="128" cy="22" r="5" fill="#8a5a20"/>
+    <circle cx="168" cy="22" r="5" fill="#8a5a20"/>
+    <circle cx="124" cy="32" r="5" fill="#8a5a20"/>
+    <circle cx="172" cy="32" r="5" fill="#8a5a20"/>
+    <circle cx="122" cy="44" r="5" fill="#8a5a20"/>
+    <circle cx="174" cy="44" r="5" fill="#8a5a20"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-tag">Est. 1978 · Austin, Texas</p>
+    <h1>
+      Where Every<br>
+      <span class="line2">Riff Begins.</span>
+    </h1>
+    <p class="hero-body">
+      Hand-selected vintage guitars, boutique amps, and expert repair — all under one roof. We don't just sell instruments; we match players to their sound.
+    </p>
+    <div class="hero-actions">
+      <a href="#guitars" class="btn-primary">Shop Guitars</a>
+      <a href="#services" class="btn-ghost">Our Services</a>
     </div>
+  </div>
 
-    <div class="hero-visual">
-      <div class="card-stack">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card">
-          <div class="card-dot"></div>
-          <div class="card-line accent"></div>
-          <div class="card-line"></div>
-          <div class="card-line short"></div>
-          <div class="card-line"></div>
-          <div class="card-line short"></div>
-        </div>
-      </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">2,400+</div>
+      <div class="stat-label">Guitars in Stock</div>
     </div>
-  </section>
+    <div>
+      <div class="stat-num">46 yrs</div>
+      <div class="stat-label">In Business</div>
+    </div>
+    <div>
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Customer Satisfaction</div>
+    </div>
+    <div>
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Luthier Awards</div>
+    </div>
+  </div>
+</section>
 
-  <footer>© 2026 Folio. All rights reserved.</footer>
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Gibson</span><span class="dot">◆</span>
+    <span>Fender</span><span class="dot">◆</span>
+    <span>Martin</span><span class="dot">◆</span>
+    <span>Taylor</span><span class="dot">◆</span>
+    <span>PRS</span><span class="dot">◆</span>
+    <span>Gretsch</span><span class="dot">◆</span>
+    <span>Rickenbacker</span><span class="dot">◆</span>
+    <span>Guild</span><span class="dot">◆</span>
+    <span>Collings</span><span class="dot">◆</span>
+    <span>Epiphone</span><span class="dot">◆</span>
+    <span>Gibson</span><span class="dot">◆</span>
+    <span>Fender</span><span class="dot">◆</span>
+    <span>Martin</span><span class="dot">◆</span>
+    <span>Taylor</span><span class="dot">◆</span>
+    <span>PRS</span><span class="dot">◆</span>
+    <span>Gretsch</span><span class="dot">◆</span>
+    <span>Rickenbacker</span><span class="dot">◆</span>
+    <span>Guild</span><span class="dot">◆</span>
+    <span>Collings</span><span class="dot">◆</span>
+    <span>Epiphone</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- FEATURED GUITARS -->
+<section class="guitars" id="guitars">
+  <div class="guitars-header">
+    <div>
+      <p class="section-tag">Featured Instruments</p>
+      <h2>Handpicked<br><em>just for you.</em></h2>
+    </div>
+    <p class="guitars-sub">Every guitar on our floor is personally inspected and set up by our in-house luthiers before it finds its player.</p>
+  </div>
+
+  <div class="guitars-grid">
+    <div class="guitar-card">
+      <span class="guitar-tag tag-new">New</span>
+      <span class="guitar-icon">🎸</span>
+      <p class="guitar-brand">Gibson USA</p>
+      <h3 class="guitar-name">Les Paul Standard '60s</h3>
+      <p class="guitar-desc">Iced Tea burst finish, Burstbucker Pro pickups, weight-relieved mahogany body. Built for the stage.</p>
+      <p class="guitar-price">$2,799</p>
+    </div>
+    <div class="guitar-card">
+      <span class="guitar-tag tag-rare">Rare</span>
+      <span class="guitar-icon">🎸</span>
+      <p class="guitar-brand">Fender Custom Shop</p>
+      <h3 class="guitar-name">1957 Stratocaster Relic</h3>
+      <p class="guitar-desc">Master-built heavy relic, hand-wound Abby pickups, aged hardware. A living piece of history.</p>
+      <p class="guitar-price">$8,400</p>
+    </div>
+    <div class="guitar-card">
+      <span class="guitar-tag tag-used">Vintage</span>
+      <span class="guitar-icon">🪕</span>
+      <p class="guitar-brand">Martin & Co.</p>
+      <h3 class="guitar-name">D-28 Herringbone (1974)</h3>
+      <p class="guitar-desc">Brazilian rosewood back and sides, Adirondack spruce top. Original case, exceptional condition.</p>
+      <p class="guitar-price">$12,500</p>
+    </div>
+    <div class="guitar-card">
+      <span class="guitar-tag tag-new">New</span>
+      <span class="guitar-icon">🎸</span>
+      <p class="guitar-brand">PRS Guitars</p>
+      <h3 class="guitar-name">Custom 24 10-Top</h3>
+      <p class="guitar-desc">Figured maple top, 85/15 pickups, Pattern Regular neck. Effortless playability from first note.</p>
+      <p class="guitar-price">$3,200</p>
+    </div>
+    <div class="guitar-card">
+      <span class="guitar-tag tag-used">Pre-owned</span>
+      <span class="guitar-icon">🎸</span>
+      <p class="guitar-brand">Gretsch</p>
+      <h3 class="guitar-name">White Falcon G6136</h3>
+      <p class="guitar-desc">Gold sparkle binding, Filtertron pickups, floating Bigsby. Pure rock and roll iconography.</p>
+      <p class="guitar-price">$2,100</p>
+    </div>
+    <div class="guitar-card">
+      <span class="guitar-tag tag-new">New</span>
+      <span class="guitar-icon">🪕</span>
+      <p class="guitar-brand">Taylor Guitars</p>
+      <h3 class="guitar-name">814ce Builder's Edition</h3>
+      <p class="guitar-desc">Wild Honey Burst top, V-Class bracing, Expression System 2. Acoustic perfection redefined.</p>
+      <p class="guitar-price">$4,599</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <blockquote>
+    "The guitar is a small orchestra. It is polyphonic. Every string is a different colour, a different voice."
+  </blockquote>
+  <cite>— Andrés Segovia</cite>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div style="max-width: 520px;">
+    <p class="section-tag">What We Offer</p>
+    <h2>More than<br><em>a music store.</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card">
+      <span class="svc-icon">🔧</span>
+      <h3 class="svc-title">Guitar Repair</h3>
+      <p class="svc-body">Fret leveling, neck resets, nut and saddle replacement, electronics work. Our luthiers have decades of experience with all makes and models.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🎛️</span>
+      <h3 class="svc-title">Custom Setup</h3>
+      <p class="svc-body">Every guitar deserves to play its best. We dial in action, intonation, and pickup height to match your playing style perfectly.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">📚</span>
+      <h3 class="svc-title">Lessons</h3>
+      <p class="svc-body">Beginner to advanced. Rock, blues, jazz, classical — our instructors cover every genre. Lessons available in-store and online.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">💰</span>
+      <h3 class="svc-title">Trade & Consign</h3>
+      <p class="svc-body">Upgrade your rig without the hassle. We offer fair trade-in values and transparent consignment splits on premium instruments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div>
+    <p class="section-tag">Stay in Tune</p>
+    <h2>New arrivals.<br><em>First to know.</em></h2>
+    <p class="nl-body">Rare finds, vintage drops, and exclusive events delivered straight to your inbox. No spam — just tone.</p>
+  </div>
+  <div>
+    <div class="nl-form">
+      <input type="email" placeholder="your@email.com" aria-label="Email address"/>
+      <button type="button">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">Riff<span>&amp;Grain</span></a>
+  <ul class="footer-links">
+    <li><a href="#">Guitars</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Lessons</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2024 Riff &amp; Grain Guitar Co. · Austin, TX</p>
+</footer>
 
 </body>
 </html>
